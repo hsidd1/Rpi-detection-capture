@@ -3,12 +3,19 @@ import time
 import cv2
 
 def configure_ports():
+    
+    # Raspberry Pi
     CLIPORT = "/dev/ttyUSB0"
     CLI_baudrate = 115200
-
     DATAPORT = "/dev/ttyUSB1"
     DATA_baudrate = 921600
     
+    # Windows
+    # CLIPORT = "COM5"
+    # CLI_baudrate = 115200
+    # DATAPORT = "COM6"
+    # DATA_baudrate = 921600
+
     configFileName = "xwr68xxconfig.cfg"
     
     CLI_ser = serial.Serial(CLIPORT, CLI_baudrate)
@@ -39,9 +46,10 @@ def check_detected(CLI_ser, DATA_ser):
     return len(d1) > 0 or len(d2) > 0
 
 def main():
-    counter = 0
+    counter = 3
     img_folder = "./detections"
-    cap = cv2.VideoCapture(0, CAP.DSHOW)
+    cap = cv2.VideoCapture(1, cv2.CAP_DSHOW)
+    time.sleep(2)
     CLI_ser, DATA_ser = configure_ports()
     while True:
         ret, frame = cap.read()
